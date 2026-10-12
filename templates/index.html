@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phishing URL Detector</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: Arial, sans-serif; background: #f3f6fb;
+      color: #172033; min-height: 100vh; display: grid; place-items: center;
+      padding: 24px;
+    }
+    .card {
+      width: 100%; max-width: 680px; background: white; padding: 32px;
+      border-radius: 18px; box-shadow: 0 12px 35px rgba(20, 40, 80, .10);
+    }
+    .icon { font-size: 42px; }
+    h1 { margin: 10px 0; font-size: 28px; }
+    .subtitle { color: #5b6578; line-height: 1.5; }
+    label { display: block; margin: 24px 0 8px; font-weight: bold; }
+    input {
+      width: 100%; padding: 14px; border: 1px solid #cbd3e1;
+      border-radius: 10px; font-size: 16px;
+    }
+    button {
+      width: 100%; margin-top: 12px; padding: 14px; border: 0;
+      border-radius: 10px; background: #1746a2; color: white;
+      font-size: 16px; font-weight: bold; cursor: pointer;
+    }
+    button:hover { background: #103781; }
+    .result, .error { margin-top: 20px; padding: 16px; border-radius: 10px; line-height: 1.5; }
+    .danger { background: #fff0f0; border: 1px solid #f0b6b6; color: #8d2020; }
+    .safe { background: #eefaf1; border: 1px solid #b9e3c4; color: #176534; }
+    .error { background: #fff6df; border: 1px solid #efd38a; color: #725100; }
+    .note { font-size: 13px; color: #687386; margin-top: 20px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="icon" aria-hidden="true">🛡️</div>
+    <h1>Phishing URL Detector</h1>
+    <p class="subtitle">Enter a website address to classify it using a machine-learning model trained on labelled URL examples.</p>
+
+    <form method="post">
+      <label for="url">Website URL</label>
+      <input id="url" name="url" type="text" placeholder="https://example.com"
+             value="{{ checked_url }}" required>
+      <button type="submit">Check URL</button>
+    </form>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if result %}
+      <div class="result {{ result.kind }}">
+        <strong>{{ result.label }}</strong><br>
+        {{ result.detail }}
+      </div>
+    {% endif %}
+
+    <p class="note">
+      Educational demo only. This model checks URL text patterns and may make mistakes.
+      A “likely legitimate” result does not prove a site is safe. Do not visit suspicious
+      links or enter private information to test them.
+    </p>
+  </main>
+</body>
+</html>
